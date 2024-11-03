@@ -14,7 +14,7 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "CommerceCore checkout",
+  title: "CommerceCore Task",
   description: "",
 };
 

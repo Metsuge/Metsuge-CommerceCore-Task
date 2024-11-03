@@ -1,0 +1,70 @@
+.form{
+    margin: 0 auto;
+    width: 559px;
+}
+
+// Container for each input row
+.formGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  
+  // Flex container for fields that share the same row
+  .formRow {
+    display: flex;
+    gap: 16px; // Adds space between elements in the row
+    // Make each child in .form-row take up 100% of available width
+    > div {
+      flex: 1;
+    }
+  }
+  
+  // Input field styling
+  .input {
+    height: 52px;
+    width: 100%;
+    padding-left: 16px;
+    border: 1px solid grey; // 1px solid grey border
+    border-radius: 6px; // Optional: adds slight rounding to the corners
+    font-size: 16px; // Set font size for input text
+    box-sizing: border-box; // Ensures padding doesn’t affect total width
+  }
+
+  .dropdown{
+    height:52px;
+    background-color: white;
+  }
+
+  .email, .address{
+    // padding:16px 0 16px 0;
+  }
+
+  .country {
+    // padding-top:16px;
+  }
+  
+  // Button styling
+  .button {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #0070f3; // Next.js default blue color
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  
+    &:hover {
+      background-color: #005bb5;
+    }
+
+
+  }
+
+  .title {
+    font-size: 24px;
+    line-height: 32px;
+    font-weight: 700;
+  }
+  
