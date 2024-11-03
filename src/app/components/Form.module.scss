@@ -3,32 +3,28 @@
     width: 559px;
 }
 
-// Container for each input row
 .formGroup {
     display: flex;
     flex-direction: column;
     gap: 16px;
   }
   
-  // Flex container for fields that share the same row
   .formRow {
     display: flex;
-    gap: 16px; // Adds space between elements in the row
-    // Make each child in .form-row take up 100% of available width
+    gap: 16px;
     > div {
       flex: 1;
     }
   }
   
-  // Input field styling
   .input {
     height: 52px;
     width: 100%;
     padding-left: 16px;
-    border: 1px solid grey; // 1px solid grey border
-    border-radius: 6px; // Optional: adds slight rounding to the corners
-    font-size: 16px; // Set font size for input text
-    box-sizing: border-box; // Ensures padding doesn’t affect total width
+    border: 1px solid grey;
+    border-radius: 6px; 
+    font-size: 16px; 
+    box-sizing: border-box; 
   }
 
   .dropdown{
@@ -44,11 +40,10 @@
     // padding-top:16px;
   }
   
-  // Button styling
   .button {
     padding: 10px 20px;
     font-size: 16px;
-    background-color: #0070f3; // Next.js default blue color
+    background-color: #0070f3; 
     color: white;
     border: none;
     border-radius: 6px;
@@ -58,8 +53,6 @@
     &:hover {
       background-color: #005bb5;
     }
-
-
   }
 
   .title {
@@ -67,4 +60,73 @@
     line-height: 32px;
     font-weight: 700;
   }
+  .h2{
+    font-size: 12px;
+    line-height: 16px;
+    font-weight: 400;
+    color: #828282;
+  }
+
+  .cardIcons{
+    display: flex;
+    gap: 3px;
+    opacity: 0px;
+
+    .icons {
+        gap: 3px;
+        display: flex;
+        width: 190.8px;
+        height:24px;
+
+
+        > span {
+            flex: 1;
+            width:36px;
+            height: 24px;
+            background-color: aqua;
+        }
+    }
+
+        .checkmark {
+        width: 347px;
+    }
+  }
+
+  .button{
+    height:56px;
+    background: #009900;
+    font-size: 18px;
+    line-height: 24px;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: 0.07em;
+    border-radius: 4px;
+    padding: 16px 32px 16px 32px;
+  }
+
+
+  .endText{
+    width:100%;
+    
+    .endTextInner{
+        margin: 0 auto;
+        width:258px;
+        font-family: Roboto;
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 20px;
+        text-align: left;
+
+
+        > span{
+            display: inline-block;
+            width:14px;
+            height: 14px;
+            background-color:#009900;
+            margin-right: 8px;
+        }
+    }
+  }
+ 
+
   

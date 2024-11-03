@@ -12,7 +12,11 @@ export default function Form() {
     city: '',
     state: '1',
     zip: '',
-    country: 'United States'
+    country: 'United States',
+    cardNr: '',
+    expiration:'',
+    securityCode: '',
+    nameOnCard:''
   });
   const [submitted, setSubmitted] = useState<boolean>(false);
 
@@ -46,6 +50,7 @@ export default function Form() {
           />
         </div>
         <div className={styles.title}>Delivery</div>
+        {/* FIRST LAST NAMES */}
         <div className={styles.formRow}>
           <div>
             <input
@@ -61,10 +66,8 @@ export default function Form() {
           </div>
           <div>
             <input   
-                   className={styles.input}
-
+              className={styles.input}
               placeholder='Last Name'
-
               type="text"
               id="lastName"
               name="lastName"
@@ -89,7 +92,7 @@ export default function Form() {
           />
         </div>
 
-        {/* City, State/Province, ZIP/Postal Code */}
+        {/* City */}
         <div className={styles.formRow}>
           <div>
             <input
@@ -103,6 +106,7 @@ export default function Form() {
               required
             />
           </div>
+          {/* STATE */}
           <div >
             <select
               className={`${styles.dropdown} ${styles.input}`}
@@ -130,8 +134,6 @@ export default function Form() {
             />
           </div>
         </div>
-
-        {/* Country Dropdown */}
         
         <div className={`${styles.formGroup}  ${styles.country} `}>
           <select
@@ -151,9 +153,87 @@ export default function Form() {
           </select>
         </div>
 
-        
+        <div className={styles.title}>Payment</div>
+        <div className={styles.h2}>All transactions are secure and encrypted.</div>
+          <div className={styles.formGroup} >
+          <label className="circular-checkbox">
 
-        
+            <div className={styles.cardIcons}>
+              <input type="checkbox" id="circularCheckbox" />
+              <span className="checkmark"> Credit Card</span>
+              <div className={styles.icons}>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
+            </div>
+            
+          </label>
+          {/* CARD NR */}
+          <div className={`${styles.formGroup}`}>
+            <input
+              className={styles.input}
+              placeholder='Card number'
+              type="text"
+              id="cardNr"
+              name="CardNr"
+              value={formData.address}
+              onChange={handleChange}
+              required
+            />
+          </div>
+            {/* EXPIRATION SECURITY */}
+
+            <div className={styles.formRow}>
+          <div>
+            <input
+              className={styles.input}
+              placeholder='Expiration (MM/YY)'
+              type="text"
+              id="expiration"
+              name="expiration"
+              value={formData.expiration}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div>
+            <input   
+              className={styles.input}
+              placeholder='Security code'
+              type="text"
+              id="securityCode"
+              name="securityCode"
+              value={formData.securityCode}
+              onChange={handleChange}
+              required
+            />
+          </div>
+        </div>
+
+         {/* NAME ON CARD */}
+         <div className={`${styles.formGroup}`}>
+            <input
+              className={styles.input}
+              placeholder='Name on card'
+              type="text"
+              id="nameOnCard"
+              name="nameOnCard"
+              value={formData.nameOnCard}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          </div>
+
+        <button 
+        className={`${styles.button}`}
+        >COMPLETE ORDER</button>
+        <div className={styles.endText}>
+          <div className={styles.endTextInner}><span></span>
+          All transactions are secure and encrypted</div>
+        </div>
       </form>
       
     </div>
