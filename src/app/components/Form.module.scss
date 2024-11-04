@@ -1,132 +1,137 @@
-.form{
-    margin: 0 auto;
-    width: 559px;
+.form {
+
+  width: fit-content;
+  max-width: 559px;
+  float: right;
+  margin-right: 35px;
 }
 
 .formGroup {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-  }
-  
-  .formRow {
-    display: flex;
-    gap: 16px;
-    > div {
-      flex: 1;
-    }
-  }
-  
-  .input {
-    height: 52px;
-    width: 100%;
-    padding-left: 16px;
-    border: 1px solid grey;
-    border-radius: 6px; 
-    font-size: 16px; 
-    box-sizing: border-box; 
-  }
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
 
-  .dropdown{
-    height:52px;
-    background-color: white;
-  }
+.formRow {
+  display: flex;
+  gap: 16px;
 
-  .email, .address{
-    // padding:16px 0 16px 0;
+  >div {
+    flex: 1;
   }
+}
 
-  .country {
-    // padding-top:16px;
-  }
-  
-  .button {
-    padding: 10px 20px;
-    font-size: 16px;
-    background-color: #0070f3; 
-    color: white;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-  
-    &:hover {
-      background-color: #005bb5;
-    }
-  }
+.input {
+  height: 52px;
+  width: 100%;
+  padding-left: 16px;
+  border: 1px solid #E0E0E0;
+  border-radius: 6px;
+  font-size: 16px;
+  box-sizing: border-box;
+}
 
-  .title {
-    font-size: 24px;
-    line-height: 32px;
-    font-weight: 700;
-  }
-  .h2{
-    font-size: 12px;
-    line-height: 16px;
-    font-weight: 400;
-    color: #828282;
-  }
+.dropdown {
+  height: 52px;
+  background-color: white;
+}
 
-  .cardIcons{
-    display: flex;
+.email,
+.address {
+  // padding:16px 0 16px 0;
+}
+
+.country {
+  // padding-top:16px;
+}
+
+.button {
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #0070f3;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+
+  &:hover {
+    background-color: #005bb5;
+  }
+}
+
+.title {
+  font-size: 24px;
+  line-height: 32px;
+  font-weight: 700;
+}
+
+.h2 {
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 400;
+  color: #828282;
+}
+
+.cardIcons {
+  display: flex;
+  gap: 3px;
+  opacity: 0px;
+
+  .icons {
     gap: 3px;
-    opacity: 0px;
-
-    .icons {
-        gap: 3px;
-        display: flex;
-        width: 190.8px;
-        height:24px;
+    display: flex;
+    width: 190.8px;
+    height: 24px;
 
 
-        > span {
-            flex: 1;
-            width:36px;
-            height: 24px;
-            background-color: aqua;
-        }
-    }
-
-        .checkmark {
-        width: 347px;
+    >span {
+      flex: 1;
+      width: 36px;
+      height: 24px;
+      background-color: aqua;
     }
   }
 
-  .button{
-    height:56px;
-    background: #009900;
-    font-size: 18px;
-    line-height: 24px;
-    font-weight: 700;
-    color: #fff;
-    letter-spacing: 0.07em;
-    border-radius: 4px;
-    padding: 16px 32px 16px 32px;
+  .checkmark {
+    width: 347px;
   }
+}
+
+.button {
+  height: 56px;
+  background: #009900;
+  font-size: 18px;
+  line-height: 24px;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: 0.07em;
+  border-radius: 4px;
+  padding: 16px 32px 16px 32px;
+  box-shadow: 0px 4px 10px 0px #4328103D;
+
+}
 
 
-  .endText{
-    width:100%;
-    
-    .endTextInner{
-        margin: 0 auto;
-        width:258px;
-        font-family: Roboto;
-        font-size: 14px;
-        font-weight: 400;
-        line-height: 20px;
-        text-align: left;
+.endText {
+  width: 100%;
+
+  .endTextInner {
+    margin: 0 auto;
+    width: 258px;
+    font-family: Roboto;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 20px;
+    text-align: left;
 
 
-        > span{
-            display: inline-block;
-            width:14px;
-            height: 14px;
-            background-color:#009900;
-            margin-right: 8px;
-        }
+    >span {
+      display: inline-block;
+      width: 14px;
+      height: 14px;
+      background-color: #009900;
+      margin-right: 8px;
     }
   }
- 
-
-  
+}
