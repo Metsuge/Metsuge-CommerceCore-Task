@@ -4,6 +4,10 @@
     min-height: 188px;
     margin-bottom: 35px;
 
+    @media (max-width: 800px) {
+        margin: 0 auto;
+    }
+
     table {
         width: 100%;
         display: inline-block;
@@ -18,6 +22,17 @@
             }
         }
 
+        tbody tr:first-child {
+
+            td {
+
+                border-top: none;
+
+            }
+
+        }
+
+
         tbody tr:last-child {
 
             td {
@@ -27,6 +42,14 @@
                 line-height: 24px;
 
             }
+
+        }
+
+        #tableItem {
+            display: flex;
+
+
+            padding-bottom: 16px;
 
         }
     }

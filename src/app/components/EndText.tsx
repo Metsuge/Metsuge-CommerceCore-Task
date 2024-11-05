@@ -1,5 +1,4 @@
 import React from 'react'
-
 import styles from "./EndText.module.scss"
 
 const EndText = () => {

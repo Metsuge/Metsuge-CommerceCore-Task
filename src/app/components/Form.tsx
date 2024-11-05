@@ -1,9 +1,13 @@
-"use client"; // This marks the component as a client component
+"use client";
 
-import { useState, FormEvent } from 'react';
+import { useState, FormEvent, useRef, useEffect } from 'react';
 import styles from "./Form.module.scss";
 
-export default function Form() {
+interface Props {
+  onFormDivPositionChange: (position: number) => void;
+}
+
+export default function Form({ onFormDivPositionChange }: Props) {
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -14,11 +18,31 @@ export default function Form() {
     zip: '',
     country: 'United States',
     cardNr: '',
-    expiration:'',
+    expiration: '',
     securityCode: '',
-    nameOnCard:''
+    nameOnCard: ''
   });
   const [submitted, setSubmitted] = useState<boolean>(false);
+  const divRef = useRef<HTMLInputElement>(null);
+
+
+
+  useEffect(() => {
+
+    const getPositions = () => {
+      if (divRef.current) {
+        const rect = divRef.current.getBoundingClientRect();
+        onFormDivPositionChange(rect.left);
+      }
+
+    }
+    getPositions();
+
+
+    window.addEventListener('resize', getPositions);
+  }, []);
+
+
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -31,15 +55,15 @@ export default function Form() {
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     setSubmitted(true);
-    console.log("Form data submitted:", formData);
   };
   return (
-    <div className={styles.form}>
+    <div ref={divRef} id={styles.form}>
+
       <form className={styles.formGroup} onSubmit={handleSubmit}>
-      <div className={styles.title}>Contact</div>
+        <div className={styles.title}>Contact</div>
         <div className={`${styles.formGroup} ${styles.email}`}>
           <input
-            className={styles.input }
+            className={styles.input}
             placeholder='Email Address'
             type="email"
             id="email"
@@ -65,7 +89,7 @@ export default function Form() {
             />
           </div>
           <div>
-            <input   
+            <input
               className={styles.input}
               placeholder='Last Name'
               type="text"
@@ -118,7 +142,7 @@ export default function Form() {
             >
               <option value="1">State 1</option>
               <option value="2">State 2</option>
-              
+
             </select>
           </div>
           <div>
@@ -134,12 +158,12 @@ export default function Form() {
             />
           </div>
         </div>
-        
+
         <div className={`${styles.formGroup}  ${styles.country} `}>
           <select
-          className={`${styles.dropdown} ${styles.input}`}
+            className={`${styles.dropdown} ${styles.input}`}
             id="country"
-            
+
             name="country"
             value={formData.country}
             onChange={handleChange}
@@ -155,7 +179,7 @@ export default function Form() {
 
         <div className={styles.title}>Payment</div>
         <div className={styles.h2}>All transactions are secure and encrypted.</div>
-          <div className={styles.formGroup} >
+        <div className={styles.formGroup} >
           <label className="circular-checkbox">
 
             <div className={styles.cardIcons}>
@@ -168,7 +192,7 @@ export default function Form() {
                 <span></span>
               </div>
             </div>
-            
+
           </label>
           {/* CARD NR */}
           <div className={`${styles.formGroup}`}>
@@ -183,37 +207,37 @@ export default function Form() {
               required
             />
           </div>
-            {/* EXPIRATION SECURITY */}
+          {/* EXPIRATION SECURITY */}
 
-            <div className={styles.formRow}>
-          <div>
-            <input
-              className={styles.input}
-              placeholder='Expiration (MM/YY)'
-              type="text"
-              id="expiration"
-              name="expiration"
-              value={formData.expiration}
-              onChange={handleChange}
-              required
-            />
+          <div className={styles.formRow}>
+            <div>
+              <input
+                className={styles.input}
+                placeholder='Expiration (MM/YY)'
+                type="text"
+                id="expiration"
+                name="expiration"
+                value={formData.expiration}
+                onChange={handleChange}
+                required
+              />
+            </div>
+            <div>
+              <input
+                className={styles.input}
+                placeholder='Security code'
+                type="text"
+                id="securityCode"
+                name="securityCode"
+                value={formData.securityCode}
+                onChange={handleChange}
+                required
+              />
+            </div>
           </div>
-          <div>
-            <input   
-              className={styles.input}
-              placeholder='Security code'
-              type="text"
-              id="securityCode"
-              name="securityCode"
-              value={formData.securityCode}
-              onChange={handleChange}
-              required
-            />
-          </div>
-        </div>
 
-         {/* NAME ON CARD */}
-         <div className={`${styles.formGroup}`}>
+          {/* NAME ON CARD */}
+          <div className={`${styles.formGroup}`}>
             <input
               className={styles.input}
               placeholder='Name on card'
@@ -225,17 +249,17 @@ export default function Form() {
               required
             />
           </div>
-          </div>
+        </div>
 
-        <button 
-        className={`${styles.button}`}
+        <button
+          className={`${styles.button}`}
         >COMPLETE ORDER</button>
         <div className={styles.endText}>
           <div className={styles.endTextInner}><span></span>
-          All transactions are secure and encrypted</div>
+            All transactions are secure and encrypted</div>
         </div>
       </form>
-      
+
     </div>
   );
 }

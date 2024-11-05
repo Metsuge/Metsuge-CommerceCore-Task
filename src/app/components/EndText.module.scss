@@ -1,6 +1,11 @@
 #endTextMain {
     width: 100%;
     max-width: 405px;
+    background-color: #F5F5F5;
+
+    @media (max-width: 800px) {
+        margin: 0 auto;
+    }
 }
 
 #topText {

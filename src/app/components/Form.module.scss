@@ -1,9 +1,18 @@
-.form {
+#form {
 
   width: fit-content;
   max-width: 559px;
   float: right;
   margin-right: 35px;
+
+
+
+
+  @media (max-width: 800px) {
+    max-width: 405px;
+    margin: 0 auto;
+    float: unset;
+  }
 }
 
 .formGroup {
@@ -27,8 +36,10 @@
   padding-left: 16px;
   border: 1px solid #E0E0E0;
   border-radius: 6px;
-  font-size: 16px;
   box-sizing: border-box;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
 }
 
 .dropdown {
