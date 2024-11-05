@@ -1,11 +1,37 @@
 "use client";
 
 import { useState, FormEvent, useRef, useEffect } from 'react';
+import { z } from "zod";
 import styles from "./Form.module.scss";
 
 interface Props {
   onFormDivPositionChange: (position: number) => void;
 }
+
+interface FormErrors {
+  email?: string;
+  firstName?: string;
+  lastName?: string;
+}
+
+const creditCardRegex = /^(?:4[0-9]{12}(?:[0-9]{3})?|5[1-5][0-9]{14}|3[47][0-9]{13}|3(?:0[0-5]|[68][0-9])[0-9]{11}|6(?:011|5[0-9]{2})[0-9]{12}|7[0-9]{15}|(?:2131|1800|35\d{3})\d{11})$/;
+
+const zodSchema = z.object({
+  firstName: z.string().nonempty("First name is required."),
+  lastName: z.string().nonempty("Last name is required."),
+  email: z.string().email("Email is invalid."),
+  address: z.string().nonempty("Address is required."),
+  city: z.string().nonempty("City is required."),
+  state: z.string().nonempty("State is required."),
+  zip: z.string().nonempty("ZIP code is required."),
+  country: z.string().nonempty("Country is required."),
+  cardNr: z.string().min(13, "Credit card number must be at least 13 digits")
+    .max(19, "Credit card number must be at most 19 digits")
+    .regex(creditCardRegex, "Invalid credit card number"),
+  expiration: z.string().nonempty("Expiration date is required."),
+  securityCode: z.string().nonempty("Security code is required."),
+  nameOnCard: z.string().nonempty("Name on card is required."),
+});
 
 export default function Form({ onFormDivPositionChange }: Props) {
   const [formData, setFormData] = useState({
@@ -23,6 +49,8 @@ export default function Form({ onFormDivPositionChange }: Props) {
     nameOnCard: ''
   });
   const [submitted, setSubmitted] = useState<boolean>(false);
+
+  const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const divRef = useRef<HTMLInputElement>(null);
 
 
@@ -46,6 +74,7 @@ export default function Form({ onFormDivPositionChange }: Props) {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
+    const formattedValue = name === 'cardNr' ? formatCardNumber(value) : value;
     setFormData((prevData) => ({
       ...prevData,
       [name]: value
@@ -55,7 +84,39 @@ export default function Form({ onFormDivPositionChange }: Props) {
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     setSubmitted(true);
+    // Validate form data using Zod schema
+    const result = zodSchema.safeParse(formData);
+    console.log('result', result);
+
+    if (!result.success) {
+      // Extract and set error messages if validation fails
+      const validationErrors: { [key: string]: string } = {};
+      result.error.errors.forEach((err) => {
+        if (err.path[0]) {
+          validationErrors[err.path[0] as string] = err.message;
+        }
+      });
+      console.log(validationErrors);
+
+      setErrors(validationErrors);
+    } else {
+      // Clear errors and proceed if validation passes
+      setErrors({});
+      console.log("Form data is valid, proceeding with submission...");
+      // You can add further submission logic here
+    }
   };
+
+  const formatCardNumber = (value: string) => {
+    // Remove any non-numeric characters
+    const numericValue = value.replace(/\D/g, '');
+
+    // Format the card number in groups of 4 digits
+    const formattedValue = numericValue.replace(/(\d{4})(?=\d)/g, '$1 ');
+
+    return formattedValue;
+  };
+
   return (
     <div ref={divRef} id={styles.form}>
 
@@ -65,13 +126,14 @@ export default function Form({ onFormDivPositionChange }: Props) {
           <input
             className={styles.input}
             placeholder='Email Address'
-            type="email"
+
             id="email"
             name="email"
             value={formData.email}
             onChange={handleChange}
-            required
+
           />
+          {errors.email && <span className={styles.error}>{errors.email}</span>}
         </div>
         <div className={styles.title}>Delivery</div>
         {/* FIRST LAST NAMES */}
@@ -85,8 +147,9 @@ export default function Form({ onFormDivPositionChange }: Props) {
               name="firstName"
               value={formData.firstName}
               onChange={handleChange}
-              required
+
             />
+            {errors.firstName && <span className={styles.error}>{errors.firstName}</span>}
           </div>
           <div>
             <input
@@ -97,8 +160,9 @@ export default function Form({ onFormDivPositionChange }: Props) {
               name="lastName"
               value={formData.lastName}
               onChange={handleChange}
-              required
+
             />
+            {errors.lastName && <span className={styles.error}>{errors.lastName}</span>}
           </div>
         </div>
 
@@ -112,13 +176,14 @@ export default function Form({ onFormDivPositionChange }: Props) {
             name="address"
             value={formData.address}
             onChange={handleChange}
-            required
+
           />
+          {errors.address && <span className={styles.error}>{errors.address}</span>}
         </div>
 
         {/* City */}
-        <div className={styles.formRow}>
-          <div>
+        <div id={styles.cityStateRow} className={styles.formRow}>
+          <div id={styles.cityField}>
             <input
               className={styles.input}
               placeholder='City'
@@ -127,8 +192,9 @@ export default function Form({ onFormDivPositionChange }: Props) {
               name="city"
               value={formData.city}
               onChange={handleChange}
-              required
+
             />
+            {errors.city && <span className={styles.error}>{errors.city}</span>}
           </div>
           {/* STATE */}
           <div >
@@ -138,12 +204,13 @@ export default function Form({ onFormDivPositionChange }: Props) {
               name="state"
               value={formData.state}
               onChange={handleChange}
-              required
+
             >
               <option value="1">State 1</option>
               <option value="2">State 2</option>
 
             </select>
+            {errors.state && <span className={styles.error}>{errors.state}</span>}
           </div>
           <div>
             <input
@@ -154,8 +221,9 @@ export default function Form({ onFormDivPositionChange }: Props) {
               name="zip"
               value={formData.zip}
               onChange={handleChange}
-              required
+
             />
+            {errors.zip && <span className={styles.error}>{errors.zip}</span>}
           </div>
         </div>
 
@@ -167,7 +235,7 @@ export default function Form({ onFormDivPositionChange }: Props) {
             name="country"
             value={formData.country}
             onChange={handleChange}
-            required
+
           >
             <option value="United States">United States</option>
             <option value="Canada">Canada</option>
@@ -175,6 +243,7 @@ export default function Form({ onFormDivPositionChange }: Props) {
             <option value="Australia">Australia</option>
             <option value="Other">Other</option>
           </select>
+          {errors.country && <span className={styles.error}>{errors.country}</span>}
         </div>
 
         <div className={styles.title}>Payment</div>
@@ -201,11 +270,12 @@ export default function Form({ onFormDivPositionChange }: Props) {
               placeholder='Card number'
               type="text"
               id="cardNr"
-              name="CardNr"
-              value={formData.address}
+              name="cardNr"
+              value={formData.cardNr}
               onChange={handleChange}
-              required
+
             />
+            {errors.cardNr && <span className={styles.error}>{errors.cardNr}</span>}
           </div>
           {/* EXPIRATION SECURITY */}
 
@@ -219,8 +289,9 @@ export default function Form({ onFormDivPositionChange }: Props) {
                 name="expiration"
                 value={formData.expiration}
                 onChange={handleChange}
-                required
+
               />
+              {errors.expiration && <span className={styles.error}>{errors.expiration}</span>}
             </div>
             <div>
               <input
@@ -231,8 +302,10 @@ export default function Form({ onFormDivPositionChange }: Props) {
                 name="securityCode"
                 value={formData.securityCode}
                 onChange={handleChange}
-                required
+
               />
+              {errors.securityCode && <span className={styles.error}>{errors.securityCode}</span>}
+
             </div>
           </div>
 
@@ -246,8 +319,10 @@ export default function Form({ onFormDivPositionChange }: Props) {
               name="nameOnCard"
               value={formData.nameOnCard}
               onChange={handleChange}
-              required
+
             />
+            {errors.nameOnCard && <span className={styles.error}>{errors.nameOnCard}</span>}
+
           </div>
         </div>
 

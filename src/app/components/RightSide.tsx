@@ -15,7 +15,7 @@ export default function RightSide({ onOverviewDivPositionChange }: Props) {
 
   useEffect(() => {
     const handleResize = () => {
-      setIsMobile(window.innerWidth < 800);
+      setIsMobile(window.innerWidth < 1000);
     };
 
     handleResize();
