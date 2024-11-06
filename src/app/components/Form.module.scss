@@ -1,40 +1,32 @@
 #form {
-
   width: fit-content;
   max-width: 559px;
   float: right;
   margin-right: 35px;
-
-
-
 
   @media (max-width: 1000px) {
     max-width: 405px;
     margin: 0 auto;
     float: unset;
 
-
     #cityStateRow {
       flex-wrap: wrap;
-
     }
 
     #cityField {
       flex: 1 1 100%;
     }
-
-
-
   }
-
-
-
 }
 
 .formGroup {
   display: flex;
   flex-direction: column;
   gap: 16px;
+
+  @media (max-width: 1000px) {
+    background-color: #F5F5F5;
+  }
 }
 
 .formRow {
@@ -44,6 +36,53 @@
   >div {
     flex: 1;
   }
+}
+
+#contact {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  background-color: #Fff;
+
+  @media (max-width: 1000px) {
+    border-bottom: 1px solid #E0E0E0;
+    border-top: 1px solid #E0E0E0;
+    padding: 16px;
+  }
+}
+
+#delivery {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  background-color: #Fff;
+
+  @media (max-width: 1000px) {
+    border-top: 1px solid #E0E0E0;
+    border-bottom: 1px solid #E0E0E0;
+    padding: 16px;
+  }
+}
+
+#payment {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  background-color: #Fff;
+
+  @media (max-width: 1000px) {
+    border-top: 1px solid #E0E0E0;
+    border-bottom: 1px solid #E0E0E0;
+    padding: 16px;
+  }
+}
+
+#cardDiv {
+  border: 1px solid #E0E0E0;
+  border-radius: 4px;
+  padding: 11px;
+  background-color: #FAFAFA;
+
 }
 
 .input {
@@ -63,13 +102,42 @@
   background-color: white;
 }
 
-.email,
-.address {
-  // padding:16px 0 16px 0;
+.checkbox {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 36px;
+  height: 20px;
+  border: 2px solid #0070f3;
+  border-radius: 50%;
+  position: relative;
+  margin-right: 10px;
+  transition: background-color 0.3s, border-color 0.3s;
+  cursor: pointer;
 }
 
-.country {
-  // padding-top:16px;
+.checkbox:checked {
+  background-color: #0070f3;
+  border-color: #0070f3;
+}
+
+.checkbox:checked::after {
+
+  position: absolute;
+  top: 4px;
+  left: 6px;
+  width: 6px;
+  height: 12px;
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  transform: rotate(45deg);
+}
+
+.checkbox:hover {
+  border-color: #005bb5;
+}
+
+.checkbox:checked:hover {
+  background-color: #005bb5;
 }
 
 .button {
@@ -136,9 +204,7 @@
   border-radius: 4px;
   padding: 16px 32px 16px 32px;
   box-shadow: 0px 4px 10px 0px #4328103D;
-
 }
-
 
 .endText {
   width: 100%;
@@ -151,13 +217,12 @@
     font-weight: 400;
     line-height: 20px;
     text-align: left;
-
+    color: #828282;
 
     >span {
       display: inline-block;
       width: 14px;
       height: 14px;
-      background-color: #009900;
       margin-right: 8px;
     }
   }

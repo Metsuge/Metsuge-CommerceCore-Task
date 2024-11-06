@@ -9,13 +9,8 @@
   flex-direction: row;
 
   @media (max-width: 1000px) {
-    background-color: red;
     flex-direction: column;
-
   }
-
-
-
 
   .sides {
     position: absolute;
@@ -23,6 +18,9 @@
     height: 100%;
     padding: 35px 35px 0 35px;
 
+    @media (max-width: 1000px) {
+      padding-top: 0;
+    }
   }
 
   #left {
@@ -30,8 +28,10 @@
     left: 0;
 
     @media (max-width: 1000px) {
+      background-color: #F5F5F5;
       position: unset;
       width: 100%;
+      /* padding-top: 20px; */
       order: 2;
     }
   }
@@ -44,6 +44,8 @@
       position: unset;
       width: 100%;
       order: 1;
+      border: none;
+
     }
   }
 

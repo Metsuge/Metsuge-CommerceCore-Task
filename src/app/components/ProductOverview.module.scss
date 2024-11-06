@@ -1,4 +1,4 @@
-.ProductOverview {
+#ProductOverview {
     width: 100%;
     max-width: 405px;
     min-height: 188px;
@@ -6,6 +6,7 @@
 
     @media (max-width: 1000px) {
         margin: 0 auto;
+        min-height: unset;
     }
 
     table {
@@ -41,6 +42,10 @@
                 font-weight: 700;
                 line-height: 24px;
 
+
+                @media (max-width: 1000px) {
+                    border-bottom: 1px solid #E0E0E0;
+                }
             }
 
         }
@@ -48,11 +53,73 @@
         #tableItem {
             display: flex;
 
-
+            // 
             padding-bottom: 16px;
+            border-top: none;
 
+            >td {
+                border-top: none;
+            }
+
+            @media (max-width: 1000px) {
+                padding-top: 16px;
+                // border-top: 1px solid #E0E0E0;
+            }
+        }
+
+        #tableItemPrice {
+            border-top: none;
         }
     }
+}
+
+
+#dropdown {
+    display: none;
+    width: 100%;
+    max-width: 405px;
+    min-height: 188px;
+    height: 52px;
+    border: 1px solid #E0E0E0;
+    margin: 0 auto;
+
+    >td {
+        border-bottom: 1px solid #E0E0E0;
+    }
+
+    @media (max-width: 1000px) {
+        display: table-row;
+    }
+}
+
+#dropdownArrow {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    margin-left: 8px;
+    cursor: pointer;
+
+
+}
+
+.arrowRight {
+    transition: transform 0.3s ease;
+    margin-right: 10px;
+}
+
+.arrowDown {
+    transform: rotate(180deg);
+    transition: transform 0.3s ease;
+    margin-right: 10px;
+}
+
+
+.expand {
+    display: table-row;
+}
+
+.collapse {
+    display: none;
 }
 
 .item {
