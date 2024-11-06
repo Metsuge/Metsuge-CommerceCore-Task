@@ -24,9 +24,6 @@
   flex-direction: column;
   gap: 16px;
 
-  @media (max-width: 1000px) {
-    // background-color: #F5F5F5;
-  }
 }
 
 .formRow {
@@ -141,13 +138,9 @@
   top: 2px;
   left: 2px;
   width: 16px;
-  /* Width reduced to create a 1px space */
   height: 16px;
-  /* Height reduced to create a 1px space */
   background-color: blue;
-  /* Fill color */
   border-radius: 2px;
-  /* Match outer border radius if rounded */
 }
 
 .checkbox:hover {
