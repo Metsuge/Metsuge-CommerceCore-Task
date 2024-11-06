@@ -4,18 +4,13 @@ import { useState, FormEvent, useRef, useEffect } from 'react';
 import { z } from "zod";
 import styles from "./Form.module.scss";
 import { statesByCountry } from "../assets/statesAndCountries"
-
 interface Props {
   onFormDivPositionChange: (position: number) => void;
-}
+};
 
-interface FormErrors {
-  email?: string;
-  firstName?: string;
-  lastName?: string;
-}
 
 const creditCardRegex = /^(?:4[0-9]{12}(?:[0-9]{3})?|5[1-5][0-9]{14}|3[47][0-9]{13}|3(?:0[0-5]|[68][0-9])[0-9]{11}|6(?:011|5[0-9]{2})[0-9]{12}|7[0-9]{15}|(?:2131|1800|35\d{3})\d{11})$/;
+const securityCodeRegex = /^\d{3}$/;
 
 const zodSchema = z.object({
   firstName: z.string().nonempty("First name is required."),
@@ -30,7 +25,8 @@ const zodSchema = z.object({
     .max(19, "Credit card number must be at most 19 digits")
     .regex(creditCardRegex, "Invalid credit card number"),
   expiration: z.string().nonempty("Expiration date is required."),
-  securityCode: z.string().nonempty("Security code is required."),
+  securityCode: z.string().nonempty("Security code is required.").min(3, "Security number must be at least 3 digits")
+    .max(3, "Security number must be 3 digits").regex(securityCodeRegex, "Invalid credit card number"),
   nameOnCard: z.string().nonempty("Name on card is required."),
 });
 
@@ -52,7 +48,7 @@ export default function Form({ onFormDivPositionChange }: Props) {
   const [submitted, setSubmitted] = useState<boolean>(false);
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const divRef = useRef<HTMLInputElement>(null);
-  const [isChecked, setIsChecked] = useState(false);
+  const [isChecked, setIsChecked] = useState(true);
   const [stateOptions, setStateOptions] = useState<string[]>(statesByCountry["United States"]);
 
 
@@ -129,16 +125,16 @@ export default function Form({ onFormDivPositionChange }: Props) {
       <form className={styles.formGroup} onSubmit={handleSubmit}>
         <div id={styles.contact}>
           <div className={styles.title}>Contact</div>
-          <div className={`${styles.formGroup} ${styles.email}`}>
+          <div
+            style={{ gap: '1px' }}
+            className={`${styles.formGroup} ${styles.email}`} >
             <input
               className={styles.input}
               placeholder='Email Address'
-
               id="email"
               name="email"
               value={formData.email}
               onChange={handleChange}
-
             />
             {errors.email && <span className={styles.error}>{errors.email}</span>}
           </div>
@@ -176,7 +172,9 @@ export default function Form({ onFormDivPositionChange }: Props) {
           </div>
 
           {/* Address */}
-          <div className={`${styles.formGroup} ${styles.address}`}>
+          <div
+            style={{ gap: '1px' }}
+            className={`${styles.formGroup} ${styles.address}`}>
             <input
               className={styles.input}
               placeholder='Address'
@@ -267,16 +265,35 @@ export default function Form({ onFormDivPositionChange }: Props) {
 
                 > Credit Card</span>
                 <div className={`${styles.icons} ${isChecked ? styles.iconsChecked : ''}`}>
-                  <span></span>
-                  <span></span>
-                  <span></span>
-                  <span></span>
+                  <span >
+                    <svg style={{ width: '37px', height: '24px' }}>
+                      <use href="icons.svg#visa" />
+                    </svg>
+                  </span>
+                  <span><svg style={{ width: '37px', height: '24px' }}>
+                    <use href="icons.svg#mastercard" />
+                  </svg>
+                  </span>
+                  <span><svg style={{ width: '37px', height: '24px' }}>
+                    <use href="icons.svg#amex" />
+                  </svg>
+                  </span>
+                  <span><svg style={{ width: '37px', height: '24px' }}>
+                    <use href="icons.svg#diners-club" />
+                  </svg>
+                  </span>
+                  <span><svg style={{ width: '37px', height: '24px' }}>
+                    <use href="icons.svg#discover" />
+                  </svg>
+                  </span>
                 </div>
               </div>
 
             </label>
             {/* Card nr */}
-            <div className={`${styles.formGroup}`}>
+            <div
+              style={{ gap: '1px' }}
+              className={`${styles.formGroup}`}>
               <input
                 className={styles.input}
                 placeholder='Card number'
@@ -320,7 +337,9 @@ export default function Form({ onFormDivPositionChange }: Props) {
             </div>
 
             {/* Name on card */}
-            <div className={`${styles.formGroup}`}>
+            <div
+              style={{ gap: '1px' }}
+              className={`${styles.formGroup}`}>
               <input
                 className={styles.input}
                 placeholder='Name on card'
