@@ -3,6 +3,7 @@
 import { useState, FormEvent, useRef, useEffect } from 'react';
 import { z } from "zod";
 import styles from "./Form.module.scss";
+import { statesByCountry } from "../assets/statesAndCountries"
 
 interface Props {
   onFormDivPositionChange: (position: number) => void;
@@ -52,6 +53,7 @@ export default function Form({ onFormDivPositionChange }: Props) {
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const divRef = useRef<HTMLInputElement>(null);
   const [isChecked, setIsChecked] = useState(false);
+  const [stateOptions, setStateOptions] = useState<string[]>(statesByCountry["United States"]);
 
 
   useEffect(() => {
@@ -70,18 +72,21 @@ export default function Form({ onFormDivPositionChange }: Props) {
 
     window.addEventListener('resize', getPositions);
   }, []);
-  ;
-
-
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
-    const formattedValue = name === 'cardNr' ? formatCardNumber(value) : value;
+
     setFormData((prevData) => ({
       ...prevData,
-      [name]: value
+      [name]: name === "cardNr" ? formatCardNumber(value) : value,
     }));
+
+    if (name === 'country') {
+      setStateOptions(statesByCountry[value] || []);
+      setFormData((prevData) => ({ ...prevData, state: '' })); // Reset state when country changes
+    }
   };
+
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
@@ -89,43 +94,33 @@ export default function Form({ onFormDivPositionChange }: Props) {
 
     // Validate form data using Zod schema
     const result = zodSchema.safeParse(formData);
-    // console.log('result', result);
 
     if (!result.success) {
-      // Extract and set error messages if validation fails
       const validationErrors: { [key: string]: string } = {};
       result.error.errors.forEach((err) => {
         if (err.path[0]) {
           validationErrors[err.path[0] as string] = err.message;
         }
       });
-      // console.log(validationErrors);
 
       setErrors(validationErrors);
-      localStorage.setItem('formData', JSON.stringify(formData));
-      console.log("Saved form data to localStorage:", JSON.stringify(formData));
     } else {
-      // Clear errors and proceed if validation passes
       setErrors({});
-      // console.log("Form data is valid, proceeding with submission...");
+
+      console.log('Submitted successfully!');
 
       localStorage.setItem('formData', JSON.stringify(formData));
-      console.log("Saved form data to localStorage:", JSON.stringify(formData));
+      console.log("Saved form data to localStorage,:", JSON.stringify(formData));
     }
   };
 
-
-  const formatCardNumber = (value: string) => {
-    // Remove any non-numeric characters
-    const numericValue = value.replace(/\D/g, '');
-
-    // Format the card number in groups of 4 digits
-    const formattedValue = numericValue.replace(/(\d{4})(?=\d)/g, '$1 ');
-
-    return formattedValue;
-  };
   const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setIsChecked(e.target.checked);
+  };
+
+  const formatCardNumber = (value: string) => {
+    const cleanedValue = value.replace(/\D+/g, "");
+    return cleanedValue.replace(/(.{4})/g, "$1 ").trim();
   };
 
   return (
@@ -210,19 +205,18 @@ export default function Form({ onFormDivPositionChange }: Props) {
               />
               {errors.city && <span className={styles.error}>{errors.city}</span>}
             </div>
-            {/* STATE */}
+            {/* State */}
             <div >
+
+
+
               <select
                 className={`${styles.dropdown} ${styles.input}`}
-                id="state"
-                name="state"
-                value={formData.state}
-                onChange={handleChange}
-
-              >
-                <option value="1">State 1</option>
-                <option value="2">State 2</option>
-
+                name="state" value={formData.state} onChange={handleChange}>
+                <option value="">Select a state</option>
+                {stateOptions.map((state) => (
+                  <option key={state} value={state}>{state}</option>
+                ))}
               </select>
               {errors.state && <span className={styles.error}>{errors.state}</span>}
             </div>
@@ -244,18 +238,10 @@ export default function Form({ onFormDivPositionChange }: Props) {
           <div className={`${styles.formGroup}  ${styles.country} `}>
             <select
               className={`${styles.dropdown} ${styles.input}`}
-              id="country"
-
-              name="country"
-              value={formData.country}
-              onChange={handleChange}
-
-            >
-              <option value="United States">United States</option>
-              <option value="Canada">Canada</option>
-              <option value="United Kingdom">United Kingdom</option>
-              <option value="Australia">Australia</option>
-              <option value="Other">Other</option>
+              name="country" value={formData.country} onChange={handleChange}>
+              {Object.keys(statesByCountry).map((country) => (
+                <option key={country} value={country}>{country}</option>
+              ))}
             </select>
             {errors.country && <span className={styles.error}>{errors.country}</span>}
           </div>
@@ -272,15 +258,12 @@ export default function Form({ onFormDivPositionChange }: Props) {
                   id="circularCheckbox"
                   className={styles.checkbox}
                   onChange={handleCheckboxChange} />
-
                 <span
-
                   style={{
                     marginTop: '4px'
                   }}
 
-                  className={`${styles.checkmark} ${isChecked ? styles.checked : ''}`
-                  }
+                  className={`${styles.checkmark} ${isChecked ? styles.checked : ''}`}
 
                 > Credit Card</span>
                 <div className={`${styles.icons} ${isChecked ? styles.iconsChecked : ''}`}>
@@ -292,7 +275,7 @@ export default function Form({ onFormDivPositionChange }: Props) {
               </div>
 
             </label>
-            {/* CARD NR */}
+            {/* Card nr */}
             <div className={`${styles.formGroup}`}>
               <input
                 className={styles.input}
@@ -302,11 +285,10 @@ export default function Form({ onFormDivPositionChange }: Props) {
                 name="cardNr"
                 value={formData.cardNr}
                 onChange={handleChange}
-
               />
               {errors.cardNr && <span className={styles.error}>{errors.cardNr}</span>}
             </div>
-            {/* EXPIRATION SECURITY */}
+            {/* Expiration security */}
 
             <div className={styles.formRow}>
               <div>
@@ -318,7 +300,6 @@ export default function Form({ onFormDivPositionChange }: Props) {
                   name="expiration"
                   value={formData.expiration}
                   onChange={handleChange}
-
                 />
                 {errors.expiration && <span className={styles.error}>{errors.expiration}</span>}
               </div>
@@ -338,7 +319,7 @@ export default function Form({ onFormDivPositionChange }: Props) {
               </div>
             </div>
 
-            {/* NAME ON CARD */}
+            {/* Name on card */}
             <div className={`${styles.formGroup}`}>
               <input
                 className={styles.input}
@@ -348,16 +329,15 @@ export default function Form({ onFormDivPositionChange }: Props) {
                 name="nameOnCard"
                 value={formData.nameOnCard}
                 onChange={handleChange}
-
               />
               {errors.nameOnCard && <span className={styles.error}>{errors.nameOnCard}</span>}
 
             </div>
           </div>
 
-          <button
-            className={`${styles.button}`}
-          >COMPLETE ORDER</button>
+          <button className={`${styles.button}`}>
+            COMPLETE ORDER
+          </button>
           <div className={styles.endText}>
             <div className={styles.endTextInner}><span><svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M11.9583 5.25H11.0833V4.08332C11.0833 1.83176 9.25159 0 7 0C4.74841 0 2.91668 1.83176 2.91668 4.08332V5.25H2.04168C1.88046 5.25 1.75 5.38046 1.75 5.54168V12.8334C1.75 13.4768 2.27322 14 2.91668 14H11.0834C11.7268 14 12.25 13.4768 12.25 12.8333V5.54168C12.25 5.38046 12.1195 5.25 11.9583 5.25ZM7.8733 11.3428C7.88241 11.4251 7.85594 11.5077 7.80068 11.5696C7.74542 11.6313 7.66623 11.6667 7.58335 11.6667H6.41668C6.3338 11.6667 6.25461 11.6313 6.19935 11.5696C6.14409 11.5078 6.11759 11.4251 6.12672 11.3428L6.31072 9.68825C6.01193 9.47092 5.83335 9.12712 5.83335 8.75C5.83335 8.10657 6.35657 7.58332 7.00003 7.58332C7.64348 7.58332 8.1667 8.10655 8.1667 8.75C8.1667 9.12712 7.98812 9.47092 7.68934 9.68825L7.8733 11.3428ZM9.33332 5.25H4.66668V4.08332C4.66668 2.79675 5.71342 1.75 7 1.75C8.28658 1.75 9.33332 2.79675 9.33332 4.08332V5.25Z" fill="#828282" />
@@ -367,7 +347,6 @@ export default function Form({ onFormDivPositionChange }: Props) {
           </div>
         </div>
       </form>
-
     </div>
   );
 }

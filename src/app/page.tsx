@@ -17,12 +17,10 @@ export default function Home() {
 
   const handleFormDivPosition = (position: number) => {
     setFormDivPosition(position);
-    console.log('Position form from child:', position);
   };
 
   const handleOverviewDivPosition = (position: number) => {
     setOverviewDivPosition(position);
-    console.log('Position overview from child:', position);
   };
 
   useEffect(() => {

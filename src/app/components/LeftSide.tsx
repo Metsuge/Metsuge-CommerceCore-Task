@@ -8,7 +8,6 @@ interface Props {
 }
 
 export default function LeftSide({ isMobile, onFormDivPositionChange }: Props) {
-
   return (
     <div className="">
 

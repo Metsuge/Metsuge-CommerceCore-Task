@@ -9,9 +9,7 @@ interface Props {
 
 const ProductOverview = ({ onOverviewDivPositionChange }: Props) => {
   const divRef = useRef<HTMLInputElement>(null);
-  const [isExpanded, setIsExpanded] = useState(false);
-
-
+  const [isExpanded, setIsExpanded] = useState(true);
 
   const dropdown = () => {
     setIsExpanded(!isExpanded);
@@ -62,7 +60,6 @@ const ProductOverview = ({ onOverviewDivPositionChange }: Props) => {
               >$299.97</td>
             </tr>
 
-            {/* <div className={isExpanded ? styles.expand : styles.collapse}> */}
             <tr className={isExpanded ? styles.expand : styles.collapse}>
               <td id={styles.tableItem}>
                 <div className={styles.image}>
@@ -89,7 +86,6 @@ const ProductOverview = ({ onOverviewDivPositionChange }: Props) => {
               <td>Total</td>
               <td>$299.97</td>
             </tr>
-            {/* </div> */}
 
           </tbody>
         </table>

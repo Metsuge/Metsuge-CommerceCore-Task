@@ -10,7 +10,6 @@ interface Props {
 }
 
 export default function RightSide({ onOverviewDivPositionChange }: Props) {
-
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
